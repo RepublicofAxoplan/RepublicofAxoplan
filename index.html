@@ -1,106 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Republic of Axoplan</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-      color: #222;
-    }
-    input, button, textarea, select {
-      padding: 10px;
-      margin: 5px 0;
-      display: block;
-      width: 100%;
-      max-width: 400px;
-    }
-    .dashboard {
-      border: 1px solid #ccc;
-      background: white;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 8px;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Republic of Axoplan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #004d99;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        .button {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #003366;
+        }
+
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section input, .form-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-section button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-section button:hover {
+            background-color: #218838;
+        }
+
+        .dashboard {
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard h3 {
+            margin-top: 0;
+        }
+
+        .dashboard button {
+            background-color: #f39c12;
+        }
+
+        .dashboard button:hover {
+            background-color: #e67e22;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script>
-    // === Setup ===
-    const supabase = supabase.createClient(
-      'https://opxxzfvyplqdncadcwoe.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9weHh6ZnZ5cGxxZG5jYWRjd29lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1Njg2MzYsImV4cCI6MjA2MDE0NDYzNn0.UzHh9GG6Byu3MVpyqTRTUW6ITalgO3kh6NneTNp29tw'
-    );
-    emailjs.init('H983VbhvPfCkm9mLm');
-    const app = document.getElementById('app');
 
-    function renderLandingPage() {
-      app.innerHTML = `
+    <!-- Header Section -->
+    <header>
         <h1>Welcome to the Republic of Axoplan</h1>
-        <p>Explore our nation, view our laws, and help build the future.</p>
-        <button onclick="renderLogin()">Login</button>
-        <button onclick="renderLaws()">View Laws</button>
-        <button onclick="renderDonate()">Donate with Gift Card</button>
-      `;
-    }
+        <p>Your future is in our hands. Explore the Republic's systems, laws, and more.</p>
+    </header>
 
-    function renderLaws() {
-      app.innerHTML = `
-        <h2>Public Laws</h2>
-        <p>[Laws will appear here from Supabase or static for now]</p>
-        <button onclick="renderLandingPage()">Back</button>
-      `;
-    }
+    <!-- Main Content Section -->
+    <main>
 
-    function renderDonate() {
-      app.innerHTML = `
-        <h2>Donate a Gift Card</h2>
-        <form onsubmit="sendGiftCard(event)">
-          <input placeholder="Gift Card Brand" required />
-          <input placeholder="Card Number" required />
-          <input placeholder="Expiration Date" required />
-          <input placeholder="PIN" required />
-          <input placeholder="Amount (USD)" required />
-          <input placeholder="Your Name (optional)" />
-          <button type="submit">Send Donation</button>
-        </form>
-        <button onclick="renderLandingPage()">Back</button>
-      `;
-    }
+        <!-- Login Section -->
+        <section id="login-section" class="hidden">
+            <h2>Login to your account</h2>
+            <div class="form-section">
+                <form id="login-form">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </section>
 
-    function sendGiftCard(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = {
-        brand: form[0].value,
-        number: form[1].value,
-        expiry: form[2].value,
-        pin: form[3].value,
-        amount: form[4].value,
-        name: form[5].value || 'Anonymous',
-      };
-      emailjs.send('service_ides7ef', 'template_zone9qr', {
-        message: `Gift Card Donation:
-        Brand: ${data.brand}
-        Number: ${data.number}
-        Expiry: ${data.expiry}
-        PIN: ${data.pin}
-        Amount: $${data.amount}
-        Donor: ${data.name}`,
-      }).then(() => {
-        alert('Thank you for your donation!');
-        renderLandingPage();
-      }).catch(console.error);
-    }
+        <!-- 2FA Section -->
+        <section id="2fa-section" class="hidden">
+            <h2>Two-Factor Authentication</h2>
+            <div class="form-section">
+                <form id="2fa-form">
+                    <label for="2fa-code">Enter the 2FA Code sent to your email:</label>
+                    <input type="text" id="2fa-code" name="2fa-code" required>
+                    <button type="submit">Verify</button>
+                </form>
+            </div>
+        </section>
 
-    renderLandingPage();
-  </script>
-</body>
-</html>
+        <!-- Dashboard for President -->
+        <section id="president-dashboard" class="dashboard hidden">
+            <h3>President's Dashboard</h3>
+            <p>Manage Citizenship Requests, Law Proposals, and Donations.</p>
+            <button class="button" onclick="alert('Manage Citizenship Requests')">View Citizenship Requests</button>
+            <button class="button" onclick="alert('Manage Law Proposals')">Manage Law Proposals</button>
+            <button class="button" onclick="alert('View Donations')">View Donations</button>
+        </section>
+
+        <!-- Dashboard for Vice President -->
+        <section id="vp-dashboard" class="dashboard hidden">
+            <h3>Vice President's Dashboard</h3>
+            <p>View Law Feedback, Assist with Law Proposals.</p>
+            <button class="button" onclick="alert('View Law Feedback')">View Law Feedback</button>
+            <button class="button" onclick="alert('Assist with Law Proposals')">Assist with Law Proposals</button>
+        </section>
+
+        <!-- Dashboard for Senate -->
+        <section id="senate-dashboard" class="dashboard hidden">
+            <h3>Senate Dashboard</h3>
+            <p>Manage Law Proposals, Vote on Laws, View Feedback from Citizens.</p>
+            <button class="button" onclick="alert('View Law Proposals')">View Law Proposals</button>
+            <button class="button" onclick="alert('Vote on Laws')">Vote on Laws</button>
+            <button class="button" onclick="alert('View Feedback')">View Feedback</button>
+        </section>
+
+        <!-- Public Info Section -->
+        <section class="public-info-section">
+            <h2>Read About Our Laws</h2>
+            <p>Explore the laws passed in the Republic of Axoplan, view the national code of conduct, and stay up to date with the latest legal changes.</p>
+            <a href="/laws" class="button">View Laws</a>
+        </section>
+
+        <!-- Citizenship Request -->
+        <section>
+            <h2>Citizenship Request</h2>
+            <p>If you're interested in joining the Republic of Axoplan, please submit your citizenship request here.</p>
+            <div class="form-section">
+                <h3>Submit a Citizenship Request</h3>
+                <form id="citizenship-request-form">
+                    <label for="citizen-name">Full Name:</label>
+                    <input type="text" id="citizen-name" name="citizen-name" required>
+                    <label for="citizen-reason">Reason for Citizenship:</label>
+                    <textarea id="citizen-reason" name="citizen-reason" rows="4" required></textarea>
+                    <button type="submit">Submit Citizenship Request</button>
+                </form>
+            </div>
+        </section>
+
+        <section>
+            <h2>Submit Law Feedback</h2>
+            <p>All citizens can submit their thoughts on new laws. Fill out the form below to express your opinion.</p>
+            <div class="form-section">
+                <h3>Submit Your Opinion on a Law</h3>
+                <form id="law-feedback-form">
+                    <label for="law-title">Law Title:</label>
+                    <input type="text" id="law-title" name="law-title" required>
+                    <label for="opinion">Why would you approve or reject this law?</label>
+                    <textarea id="opinion" name="opinion" rows="4" required></textarea>
+                    <button type="submit">Submit Feedback</button>
+                </form>
+            </div>
+        </section>
+
+        <section>
+            <h2>Donation Section</h2>
+            <p>If you want to donate to the Republic of Axoplan, please enter your gift card information below.</p>
+            <div class="form-section">
+                <form id="donation-form">
+                    <label for="giftcard-code">Gift Card Code:</label>
+                    <input type="text" id="giftcard-code" name="giftcard-code" required>
+                    <button type="submit">Submit Donation</button>
+                </form>
+            </div>
+        </section>
+
+        <section>
+            <h2>Citizen Voting Feedback</h2>
+            <p>Citizens can vote on new laws, but instead of a formal vote, submit your opinion below and it will be sent to the Senate.</p>
+            <div class="form-section">
+                <h3>Submit Voting Feedback</h3>
+                <form id="voting-feedback-form">
+                    <label for="law-vote-title">Law Title:</label>
+                    <input type="text" id="law-vote-title" name="law-vote-title" required>
+                    <label for="vote-opinion">Why do you approve or reject this law?</label>
+                    <textarea id="vote-opinion" name="vote-opinion" rows="4" required></textarea>
+                    <button type="submit">Submit Voting Feedback</button>
+                </form>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2025 Republic of Axoplan</p>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Login Section - Show 2FA after login
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("2fa-section").classList.remove("hidden");
+        });
+
+        // 2FA Verification
+        document.getElementById("2fa-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const twoFaCode = document.getElementById("2fa-code").value;
+            // This should be checked against an actual system but here we simulate successful 2FA
+            if (twoFaCode === "123456") {  // Example: change logic for real
